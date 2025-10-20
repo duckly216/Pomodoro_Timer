@@ -7,5 +7,5 @@ include_directories(src)
 
 add_executable(Pomodoro_Timer
     src/pomodoro.cpp
-    src/timer.cpp
-    src/timer.h)
+    src/Timer.cpp
+    src/main.cpp)
