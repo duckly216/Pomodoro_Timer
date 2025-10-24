@@ -7,8 +7,8 @@
 using namespace std;
 
 int main() {
-    Timer timer;
-    timer.startTimer(0);
+    Timer timer(1,1,1);
+    timer.startTimer();
 
     // cout << "begin\n";
     // int time_in_min = 3;
