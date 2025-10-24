@@ -34,12 +34,21 @@ public:
         this->break_timer = break_time;
         this->cycles = num_cycles;
     }
+    void set_cycles(int num_cycles) {
+        this->cycles = num_cycles;
+    }
+    void set_work_time(int new_time) {
+        this->work_timer = new_time;
+    }
+    void set_break_time(int new_time) {
+        this->break_timer = new_time;
+    }
     // Before Start Settings
     void add_5_minutes(int type);
-    void startTimer(int type);
+    void startTimer();
     // While Timer Running Controls
     void add_5_minutes_curr();
-    void toggle_work_timer();
+    void toggle_timer(int type);
     void toggle_break_timer();
 
 };
