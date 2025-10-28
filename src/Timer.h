@@ -7,51 +7,40 @@
 
 #include<chrono>
 #include<thread>
-using namespace std;
+using namespace std::chrono;
 
 
 
 class Timer {
     // Default time values are: 5 minutes for work, 2 minutes for break
     // Default Cycles (times it goes through the work/break cycle)
-    int work_timer;
-    int break_timer;
-    int cycles;
-    chrono::steady_clock::time_point current_timer = chrono::steady_clock::now();
+    minutes i_minutes{};
+    seconds i_seconds{};
+    steady_clock::time_point current_time;
 
 public:
-    enum timer_type {
-        WORK,
-        BREAK
-    };
+
     Timer() {
-        this->work_timer = 5;
-        this->break_timer = 2;
-        this->cycles = 4;
+        i_minutes = minutes(5);
+        i_seconds = seconds(0);
     }
-    Timer(int work_time, int break_time, int num_cycles) {
-        this->work_timer = work_time;
-        this->break_timer = break_time;
-        this->cycles = num_cycles;
-    }
-    void set_all(int new_work, int new_break, int new_cycles){
-        this->work_timer = new_work;
-        this->break_timer = new_timer;
-        this->cycles = new_cycles;
+    Timer(int m, int s);
+
+    void set_all(int m, int s){
+        this->i_minutes = minutes(m);
+        this->i_seconds = seconds(s);
+
     }
 
-    void set_work_time(int new_time) {
-        this->work_timer = new_time;
+    void set_minutes(int m) {
+        this->i_minutes = minutes(m);
     }
-    void set_break_time(int new_time) {
-        this->break_timer = new_time;
+    void set_seconds(int s) {
+        this->i_seconds = seconds(s);
     }
-    void set_cycles(int new_time) {
-        this->cycles = new_time;
-    }
-    void start_program();
+
     // Before Start Settings
-    void add_5_minutes(int type);
+    bool add_5_minutes();
     void startTimer();
     // While Timer Running Controls
     void add_5_minutes_curr();
