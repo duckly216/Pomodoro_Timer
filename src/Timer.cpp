@@ -33,12 +33,12 @@ void Timer::pause() {
 void Timer::resume() {
     if (is_paused == false) return;
     auto recent_pause = steady_clock::now() - pause_time;
-    paused_duration = paused_duration + (recent_pause);
+    paused_duration += duration_cast<seconds>(recent_pause);
     is_paused = false;
 }
 
 std::pair<int,int> Timer :: get_current_time(){
-    auto elapsed_time = steady_clock::now() - start_time;
+    auto elapsed_time = steady_clock::now() - start_time - paused_duration;
     auto remaining_time = total_duration - elapsed_time;
     if (remaining_time.count() <= 0) return {0,0};
 }
