@@ -9,6 +9,7 @@
 Timer::Timer(int m, int s) {
     this->i_minutes = minutes(m);
     this->i_seconds = seconds(s);
+    is_paused = false;
     total_duration = i_minutes + i_seconds;
 }
 
@@ -24,6 +25,18 @@ void Timer::startTimer()
 {
     start_time = steady_clock::now();
 }
+void Timer::pause() {
+    if (is_paused == true) return;
+    pause_time = steady_clock::now();
+    is_paused = true;
+}
+void Timer::resume() {
+    if (is_paused == false) return;
+    auto recent_pause = steady_clock::now() - pause_time;
+    paused_duration = paused_duration + (recent_pause);
+    is_paused = false;
+}
+
 std::pair<int,int> Timer :: get_current_time(){
     auto elapsed_time = steady_clock::now() - start_time;
     auto remaining_time = total_duration - elapsed_time;
