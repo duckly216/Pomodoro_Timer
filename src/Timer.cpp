@@ -13,7 +13,6 @@ Timer::Timer(int m, int s) {
     total_duration = i_minutes + i_seconds;
 }
 
-// Type determines whether it adds to work or break
 bool Timer::add_5_minutes() {
     // Timer will only be able to display 2 digits for minutes
     if (i_minutes >= minutes(95))
@@ -37,10 +36,26 @@ void Timer::resume() {
     is_paused = false;
 }
 
+// Returns time as a pair of (minutes, seconds)
 std::pair<int,int> Timer :: get_current_time(){
-    auto elapsed_time = steady_clock::now() - start_time - paused_duration;
-    auto remaining_time = total_duration - elapsed_time;
+    // raw times do not factor in the paused time
+    auto raw_elapsed_time = steady_clock::now() - start_time;
+    seconds effective_paused_duration = paused_duration;
+
+    if (is_paused) {
+        effective_paused_duration += duration_cast<seconds>(steady_clock::now() - pause_time);
+    }
+    auto effective_elapsed_time = raw_elapsed_time- effective_paused_duration;
+    auto remaining_time = total_duration - effective_elapsed_time;
+
     if (remaining_time.count() <= 0) return {0,0};
+
+    auto total_remaining_seconds = duration_cast<seconds>(remaining_time);
+    int remaining_min = duration_cast<minutes>(total_remaining_seconds).count();
+    int remaining_sec = (total_remaining_seconds % minutes(1)).count();
+
+    return std::make_pair(remaining_min, remaining_sec);
+
 }
 // void Timer::toggle_timer(int type) {
 //     const int target_time = (type == BREAK) ? break_timer : work_timer;
