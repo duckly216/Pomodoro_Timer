@@ -40,13 +40,17 @@ public:
     void set_all(int m, int s){
         this->i_minutes = minutes(m);
         this->i_seconds = seconds(s);
-
+        total_duration = i_minutes + i_seconds;
     }
     void set_minutes(int m) {
+        total_duration -= i_minutes;
         this->i_minutes = minutes(m);
+        total_duration += i_minutes;
     }
     void set_seconds(int s) {
+        total_duration -= i_seconds;
         this->i_seconds = seconds(s);
+        total_duration += i_seconds;
     }
 
 

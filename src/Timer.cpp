@@ -65,7 +65,7 @@ bool Timer::subtract_minutes(int min) {
     return true;
 }
 bool Timer::subtract_seconds(int sec) {
-    if (i_seconds - seconds(sec) < sec(0)) return false;
+    if (i_seconds - seconds(sec) < seconds(0)) return false;
     i_seconds -= seconds(sec);
     return true;
 }
