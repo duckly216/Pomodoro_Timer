@@ -58,7 +58,10 @@ public:
 
     std::pair<int,int> get_current_time();
     bool is_finished();
+    // Debug
 
+    bool subtract_minutes(int min);
+    bool subtract_seconds(int sec);
 };
 
 
