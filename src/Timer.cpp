@@ -46,7 +46,8 @@ std::pair<int,int> Timer :: get_current_time(){
     if (is_paused) {
         effective_paused_duration += duration_cast<seconds>(steady_clock::now() - pause_time);
     }
-    auto effective_elapsed_time = raw_elapsed_time- effective_paused_duration;
+    auto high_res_elapsed_time = raw_elapsed_time - effective_paused_duration;
+    auto effective_elapsed_time = duration_cast<seconds>(high_res_elapsed_time);
     auto remaining_time = total_duration - effective_elapsed_time;
 
     if (remaining_time.count() <= 0) return {0,0};
