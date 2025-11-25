@@ -5,11 +5,26 @@
 #include<iostream>
 #include "Timer.h"
 using namespace std;
+void run_timer(Timer& focus) {
+    focus.startTimer();
+    auto [initial_min, initial_sec] = focus.get_current_time();
+    cout << initial_min << ":" << (initial_sec < 10 ? "0" : "") << initial_sec << endl;
 
+    while (true){
+        this_thread::sleep_for(milliseconds(1000));
+        auto [curr_min, curr_sec] = focus.get_current_time();
+        cout << curr_min << ":" << (curr_sec < 10 ? "0" : "") << curr_sec << endl;
+        if(curr_min == 0 && curr_sec == 0) {
+            cout << "Timer Finished" << endl;
+            break;
+        }
+
+    }
+}
 int main() {
     cout << "Welcome to Pomodoro Timer" << endl;
     Timer the_timer;
-    the_timer.set_all(0,5);
+    the_timer.set_all(0,6);
     Timer break_timer;
     break_timer.set_all(0,8);
 
@@ -17,36 +32,14 @@ int main() {
     int loops = 2;
     char input;
 
-    for (int i = 1; i <= loops * 2; i++) {
-        cout<<"This is where "<< (on_break ? "break": "work") <<" time happens "<<endl;
-        Timer& focus = on_break ? break_timer : the_timer;
-        focus.startTimer();
-        while (true){
-            // cout << "Timer started for " << 0 << ":" << 05 <<endl;
-
-
-            auto [curr_min, curr_sec] = focus.get_current_time();
-            cout << curr_min << ":" << (curr_sec < 10 ? "0" : "") << curr_sec << endl;
-
-            if(curr_min == 0 && curr_sec == 0) {
-                cout << "Timer Finished" << endl;
-                break;
-            }
-            this_thread::sleep_for(milliseconds(900));
+    for (int i = 1; i <= loops; i++) {
+        cout<< "Loop: " << i << endl;
+        cout << "Work Timer" << endl;
+        run_timer(the_timer);
+        if (i != loops) {
+            cout << "Break Timer" << endl;
+            run_timer(break_timer);
         }
-        on_break = !on_break;
-    }
 
-    // cout << "begin\n";
-    // int time_in_min = 3;
-    // chrono::steady_clock::time_point tend = chrono::steady_clock::now()
-    //                                             + chrono::minutes(time_in_min);
-    // while (chrono::steady_clock::now() < tend) {
-    //     cout << "Time left: "
-    //      << chrono::duration_cast<chrono::minutes>(tend - chrono::steady_clock::now()).count()
-    //      << " m | "
-    //      << chrono::duration_cast<chrono::seconds>(tend - chrono::steady_clock::now()).count()%60
-    //      << " s\n";
-    //     this_thread::sleep_for(chrono::seconds(1));
-    // }
+    }
 }
